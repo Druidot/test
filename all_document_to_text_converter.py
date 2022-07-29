@@ -104,6 +104,7 @@ if choice == "PDF File":
                             a.append(i[1])
                         b = " ".join(a)
                         print(b)
+                        convert_to_audio(b)
                     #     length_of_list = len(text)
                     #     extracted= text[2:length_of_list-8]
                     #     for i in extracted:
