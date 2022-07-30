@@ -105,25 +105,22 @@ if choice == "PDF File":
                         b = " ".join(a)
                         print(b)
                         convert_to_audio(b)
-                    #     length_of_list = len(text)
-                    #     extracted= text[2:length_of_list-8]
-                    #     for i in extracted:
-                    #         total_text = total_text + i[1]
-                    #     print(total_text)
-                    # # st.write("If you last converted audio file were more than 1 hour than please wait for 10 minute")
-                    # # st.write(len(total_text))
+
                 else:
                     # print('hindi')
                     # file_details = {"filename": docx_file.name, "filetype": docx_file.type,
                     #                 "filesize": docx_file.size}
                     # st.write(file_details)
                     for i in range(total_pages + 1):
+                        count+=1
                         loop = 1
                         try:
                             with pdfplumber.open(docx_file) as pdf:
                                 pages = pdf.pages[int(starting_page_no - 1 + i)]
                                 line = pages.extract_text()
                                 total_text = total_text + line
+                                # if total_text is None:
+                                #     total_text = f'no text in {count} page'
                                 if len(total_text) < 40000:
                                     pass
                                 else:
@@ -136,6 +133,8 @@ if choice == "PDF File":
                             st.write("None")
                         time.sleep(2)
                     if loop == 1:
+                        if total_text is None or len(total_text)==0:
+                            total_text = f'no word in this page'
                         s = total_text.split(' ')
                         for i in s:
                             if len(i)>2:
@@ -146,7 +145,11 @@ if choice == "PDF File":
                         # print(c)
                         trans = EngtoHindi(message=c)
                         j = trans.convert
-                        # print(j)
+                        print(j)
+                        if j is None:
+                            print('yes')
+                            j = f'no text in {count} page'
+
                         convert_to_hindiaudio(j)
 
                     # st.write("If you last converted audio file were more than 1 hour than please wait for 10 minute")
@@ -179,7 +182,7 @@ if choice == "Scanned PDF":
                     extractedPage = doc.extract_pages(int(starting_page_no - 1 + i),1)
                     a= extractedPage.save(f"Output_{i}.jpg")
                     reader = easyocr.Reader(['en'])
-                    text = reader.readtext(f"Output_{i}.jpg")
+                    text = reader.readtext(a)
                 for i in text:
                     count+=1
                     if count>1 and count< (len(text) -2):
