@@ -90,7 +90,7 @@ if choice == "PDF File":
                         time.sleep(2)
                     if loop == 1 and len(total_text)>0:
                         print(len(total_text))
-                        # convert_to_audio(total_text)
+                        convert_to_audio(total_text)
                     else:
                         print(docx_file.name)
                         doc = aw.Document(docx_file.name)
