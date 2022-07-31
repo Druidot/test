@@ -14,6 +14,9 @@ from englisttohindi.englisttohindi import EngtoHindi
 
 
 # pip.main(["install", "openpyxl"])
+text = []
+hind = []
+a = ""
 counter=0
 count = 0
 n=0
@@ -112,7 +115,7 @@ if choice == "PDF File":
                     #                 "filesize": docx_file.size}
                     # st.write(file_details)
                     for i in range(total_pages + 1):
-                        count+=1
+
                         loop = 1
                         try:
                             with pdfplumber.open(docx_file) as pdf:
@@ -125,6 +128,7 @@ if choice == "PDF File":
                                     pass
                                 else:
                                     convert_to_audio(total_text)
+                                    print("very much texts")
                                     time.sleep(999)
                                     total_text = ""
                                     loop = 0
@@ -133,6 +137,7 @@ if choice == "PDF File":
                             st.write("None")
                         time.sleep(2)
                     if loop == 1:
+                        # print(total_text)
                         if total_text is None or len(total_text)==0:
                             total_text = f'no word in this page'
                         s = total_text.split(' ')
@@ -142,15 +147,18 @@ if choice == "PDF File":
                         s = " ".join(a)
                         x = s.replace('\n',' ')
                         c= x.lower()
-                        # print(c)
-                        trans = EngtoHindi(message=c)
-                        j = trans.convert
-                        print(j)
-                        if j is None:
-                            print('yes')
-                            j = f'no text in {count} page'
+                        for i in c:
+                            text = c.split(',')
+                        # print(text)
+                        for i in text:
+                            trans = EngtoHindi(message=i)
+                            j = trans.convert
+                            hind.append(j)
+                            # print(hind)
+                        a = "".join(hind)
+                        # print(a)
 
-                        convert_to_hindiaudio(j)
+                        convert_to_hindiaudio(a)
 
                     # st.write("If you last converted audio file were more than 1 hour than please wait for 10 minute")
                     # st.write(len(total_text))
