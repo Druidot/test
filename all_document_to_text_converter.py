@@ -87,7 +87,7 @@ if choice == "PDF File":
 
                         except:
                             st.write("None")
-                        time.sleep(2)
+                        # time.sleep(2)
                     if loop == 1 and len(total_text)>0:
                         print(len(total_text))
                         convert_to_audio(total_text)
